@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Public from './Public'
 import Dashboard from './Dashboard'
 import SteamCallback from './auth/steam/SteamCallback'
+import Header from './Header'
 
 import SessionManager from './managers/sessionManager'
 
@@ -24,7 +25,7 @@ export default function App () {
 
   return (
     <div>
-      <h1>Cheetos Bros</h1>
+      <Header />
 
       <BrowserRouter>
         <Switch>

@@ -6,4 +6,8 @@ export default class SessionManager {
   isAuthenticated (token) {
     return window.localStorage.getItem('cheetosbros-token') !== null
   }
+
+  logout () {
+    window.localStorage.removeItem('cheetosbros-token')
+  }
 }
