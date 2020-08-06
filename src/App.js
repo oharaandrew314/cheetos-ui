@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Public from './Public'
 import Dashboard from './Dashboard'
-import SteamCallback from './auth/steam/SteamCallback'
+import Callback from './auth/Callback'
 import Header from './Header'
 
 import SessionManager from './managers/sessionManager'
@@ -29,7 +29,7 @@ export default function App () {
 
       <BrowserRouter>
         <Switch>
-          <Route path='/auth/steam/callback' component={SteamCallback} />
+          <Route path='/auth/callback' component={Callback} />
           {routes}
         </Switch>
       </BrowserRouter>

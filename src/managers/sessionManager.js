@@ -1,6 +1,7 @@
 export default class SessionManager {
-  setToken (token) {
+  setToken (token, displayName) {
     window.localStorage.setItem('cheetosbros-token', token)
+    window.localStorage.setItem('cheetosbros-displayName', displayName)
   }
 
   isAuthenticated (token) {
@@ -9,5 +10,10 @@ export default class SessionManager {
 
   logout () {
     window.localStorage.removeItem('cheetosbros-token')
+    window.localStorage.removeItem('cheetosbros-displayName')
+  }
+
+  getCurrentDisplayName () {
+    return window.localStorage.getItem('cheetosbros-displayName')
   }
 }

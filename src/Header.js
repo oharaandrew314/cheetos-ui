@@ -12,7 +12,10 @@ function handleLogout () {
 export default function () {
   const logoutButon = sessionManager.isAuthenticated()
     ? (
-      <button onClick={handleLogout}>Log Out</button>
+      <span>
+        {sessionManager.getCurrentDisplayName()}
+        <button onClick={handleLogout}>Log Out</button>
+      </span>
     )
     : (
       <div />
