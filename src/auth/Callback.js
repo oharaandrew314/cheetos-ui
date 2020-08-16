@@ -1,14 +1,13 @@
 
-import SessionManager from '../managers/sessionManager'
+import SessionManager from './sessionManager'
 
 const sessionManager = new SessionManager()
 
-export default function (props) {
+export default async function (props) {
   const params = new URLSearchParams(props.location.search)
   const token = params.get('token')
-  const displayName = params.get('displayName')
 
-  sessionManager.setToken(token, displayName)
+  await sessionManager.login(token)
 
   window.location = '/'
 }
