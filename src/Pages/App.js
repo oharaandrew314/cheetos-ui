@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
+import { STEAM_LOGIN_URL, OPENXBL_LOGIN_URL } from '../Constants'
 import Public from './Public'
 import Dashboard from './Dashboard'
-import Callback from './auth/Callback'
-import Header from './Header'
-import SessionManager from './auth/sessionManager'
+import Callback from '../auth/Callback'
+import Header from '../Components/Header'
+import SessionManager from '../auth/sessionManager'
 
 export default class App extends Component {
   constructor (props) {
@@ -27,7 +28,9 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path='/auth/callback' component={Callback} />
-            <Route path='/' component={Public} />
+            <Route path='/'>
+              <Public steamLoginUrl={STEAM_LOGIN_URL} openxblLoginUrl={OPENXBL_LOGIN_URL} />
+            </Route>
           </Switch>
         </BrowserRouter>
       )
