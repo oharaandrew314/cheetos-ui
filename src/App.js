@@ -11,26 +11,27 @@ import SessionManager from './managers/sessionManager'
 const sessionManager = new SessionManager()
 
 export default function App () {
-  const routes = sessionManager.isAuthenticated()
-    ? (
-      <div>
-        <Route path='/' component={Dashboard} />
-      </div>
-    )
-    : (
-      <div>
-        <Route path='/' component={Public} />
-      </div>
-    )
-
-  return (
-    <div>
-      <Header />
-
+  if (!sessionManager.isAuthenticated()) {
+    return (
       <BrowserRouter>
         <Switch>
           <Route path='/auth/callback' component={Callback} />
-          {routes}
+          <Route path='/' component={Public} />
+        </Switch>
+      </BrowserRouter>
+    )
+  }
+
+  const client = sessionManager.getClient()
+
+  return (
+    <div>
+      <Header sessionManager={sessionManager} client={client} />
+      <BrowserRouter>
+        <Switch>
+          <Route path='/'>
+            <Dashboard client={client} />
+          </Route>
         </Switch>
       </BrowserRouter>
     </div>

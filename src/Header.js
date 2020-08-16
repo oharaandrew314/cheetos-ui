@@ -1,31 +1,46 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import SessionManager from './managers/sessionManager'
+export default class Header extends Component {
+  constructor (props) {
+    super(props)
 
-const sessionManager = new SessionManager()
+    this.state = { profile: undefined }
 
-function handleLogout () {
-  sessionManager.logout()
-  window.location = '/'
-}
+    this.handleLogout = this.handleLogout.bind(this)
+  }
 
-export default function () {
-  const logoutButon = sessionManager.isAuthenticated()
-    ? (
-      <span>
-        {sessionManager.getCurrentDisplayName()}
-        <button onClick={handleLogout}>Log Out</button>
-      </span>
+  handleLogout () {
+    this.props.sessionManager.logout()
+    window.location = '/'
+  }
+
+  async componentDidMount () {
+    const { client } = this.props
+
+    const profile = await client.profile()
+    this.setState({ profile })
+  }
+
+  render () {
+    const { profile } = this.state
+
+    const logoutButon = profile !== undefined
+      ? (
+        <span>
+          {profile.displayName}
+          <button onClick={this.handleLogout}>Log Out</button>
+        </span>
+      )
+      : (
+        <div />
+      )
+
+    return (
+      <header>
+        <h1>Cheetos Bros</h1>
+
+        {logoutButon}
+      </header>
     )
-    : (
-      <div />
-    )
-
-  return (
-    <header>
-      <h1>Cheetos Bros</h1>
-
-      {logoutButon}
-    </header>
-  )
+  }
 }
