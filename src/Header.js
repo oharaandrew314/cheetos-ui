@@ -8,12 +8,12 @@ export default class Header extends Component {
   }
 
   handleLogout () {
-    this.props.sessionManager.logout()
+    this.props.session.logout()
     window.location = '/'
   }
 
   render () {
-    const profile = this.props.sessionManager.getProfile()
+    const profile = this.props.session.getProfile()
 
     return (
       <header>

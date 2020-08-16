@@ -10,19 +10,19 @@ import SessionManager from './auth/sessionManager'
 export default class App extends Component {
   constructor (props) {
     super(props)
-    this.state = { sessionManager: undefined }
+    this.state = { session: undefined }
   }
 
   async componentDidMount () {
-    const sessionManager = new SessionManager()
-    await sessionManager.init()
-    this.setState({ sessionManager })
+    const session = new SessionManager()
+    await session.init()
+    this.setState({ session })
   }
 
   render () {
-    const { sessionManager } = this.state
+    const { session } = this.state
 
-    if (sessionManager === undefined || !sessionManager.isAuthenticated()) {
+    if (session === undefined || !session.isAuthenticated()) {
       return (
         <BrowserRouter>
           <Switch>
@@ -33,15 +33,13 @@ export default class App extends Component {
       )
     }
 
-    const client = sessionManager.getClient()
-
     return (
       <div>
-        <Header sessionManager={sessionManager} />
+        <Header session={session} />
         <BrowserRouter>
           <Switch>
             <Route path='/'>
-              <Dashboard client={client} />
+              <Dashboard session={session} />
             </Route>
           </Switch>
         </BrowserRouter>
