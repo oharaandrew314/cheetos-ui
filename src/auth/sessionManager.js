@@ -5,7 +5,7 @@ export default class SessionManager {
   async init () {
     const token = window.localStorage.getItem('cheetosbros-token')
 
-    if (token !== undefined) {
+    if (token) {
       await this.login(token)
     }
   }
