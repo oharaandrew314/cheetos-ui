@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 
+import CheetosClient from '../api/cheetosClient'
+
 export default class Dashboard extends Component {
   constructor (props) {
     super(props)
 
+    this.client = new CheetosClient()
     this.state = { games: [] }
   }
 
   async componentDidMount () {
-    const client = this.props.session.client
+    const { client } = this
 
     const games = await client.games()
     this.setState({ games })

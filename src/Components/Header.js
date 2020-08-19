@@ -17,10 +17,14 @@ export default class Header extends Component {
 
     return (
       <header>
-        <h1>Cheetos Bros</h1>
+        <a href='/'>
+          <h1>Cheetos Bros</h1>
+        </a>
 
         <span>
-          {profile.displayName}
+          <a href='/profile'>
+            {profile.displayName}
+          </a>
           <button onClick={this.handleLogout}>Log Out</button>
         </span>
       </header>

@@ -1,38 +1,21 @@
-import { API_HOST } from '../Constants'
-import CheetosClient from '../api/cheetosClient'
-
 export default class SessionManager {
-  async init () {
-    const token = window.localStorage.getItem('cheetosbros-token')
-
-    if (token) {
-      await this.login(token)
-    }
-  }
-
-  async login (token) {
-    const client = new CheetosClient(API_HOST, token)
-
-    this.profile = await client.profile()
-    window.localStorage.setItem('cheetosbros-token', token)
-    this.client = client
+  login (profile) {
+    if (!profile) throw Error('Cannot login with no profile')
+    window.localStorage.setItem('cheetosbros-profile', JSON.stringify(profile))
   }
 
   isAuthenticated () {
-    return this.client !== undefined && this.profile !== undefined
+    return this.getProfile() !== undefined
   }
 
   logout () {
-    window.localStorage.removeItem('cheetosbros-token')
-    this.client = undefined
-    this.profile = undefined
-  }
-
-  getClient () {
-    return this.client
+    window.localStorage.removeItem('cheetosbros-profile')
   }
 
   getProfile () {
-    return this.profile
+    const data = window.localStorage.getItem('cheetosbros-profile')
+    if (!data) return undefined
+
+    return JSON.parse(data)
   }
 }
