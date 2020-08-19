@@ -17,6 +17,12 @@ export default class Dashboard extends Component {
     this.setState({ games })
   }
 
+  async handleSync () {
+    const { client } = this
+
+    await client.sync()
+  }
+
   render () {
     const { games } = this.state
 
@@ -25,6 +31,10 @@ export default class Dashboard extends Component {
         <h2>Dashboard</h2>
 
         <h3>Games</h3>
+        <button onClick={this.handleSync.bind(this)}>
+          Sync
+        </button>
+
         <ul>
           {games.map(game => {
             return <li key={game.id}>({game.platform}) {game.name}</li>
