@@ -3,10 +3,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Public from './Public'
 import Dashboard from './Dashboard'
-import Callback from '../auth/Callback'
 import Header from '../Components/Header'
 import Profile from './Profile'
 import SessionManager from '../auth/sessionManager'
+
+function Callback () {
+  window.location = '/'
+}
 
 export default class App extends Component {
   constructor (props) {

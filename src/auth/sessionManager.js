@@ -1,21 +1,34 @@
-export default class SessionManager {
-  login (profile) {
-    if (!profile) throw Error('Cannot login with no profile')
-    window.localStorage.setItem('cheetosbros-profile', JSON.stringify(profile))
-  }
+import jwtDecode from 'jwt-decode'
 
+function getCookie (name) {
+  const cookie = {}
+  document.cookie.split(';').forEach((el) => {
+    const [k, v] = el.split('=')
+    cookie[k.trim()] = v
+  })
+  return cookie[name]
+}
+
+function deleteCookie (name) {
+  document.cookie = `${name}= ;expires=Thu, 01 Jan 1970 00:00:01 GMT`
+}
+
+export default class SessionManager {
   isAuthenticated () {
     return this.getProfile() !== undefined
   }
 
   logout () {
-    window.localStorage.removeItem('cheetosbros-profile')
+    deleteCookie('cheetosbros-id-token')
   }
 
   getProfile () {
-    const data = window.localStorage.getItem('cheetosbros-profile')
-    if (!data) return undefined
+    const token = getCookie('cheetosbros-id-token')
 
-    return JSON.parse(data)
+    try {
+      return jwtDecode(token)
+    } catch (e) {
+      return undefined
+    }
   }
 }

@@ -3,17 +3,16 @@ import React from 'react'
 import { LogInWithXbox, LogInWithSteam } from '../Components/Logins'
 
 export default function ({ profile }) {
-  console.log(profile)
   return (
     <div>
       <h2>Profile</h2>
 
       <h3>Id</h3>
-      {profile.id}
+      {profile.sub}
 
       <h3>Xbox</h3>
-      {profile.xboxGamerTag
-        ? profile.xboxGamerTag
+      {profile.xboxUsername
+        ? profile.xboxUsername
         : <LogInWithXbox />}
 
       <h3>Steam</h3>

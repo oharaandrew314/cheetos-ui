@@ -10,11 +10,6 @@ export default class CheetosClient {
     })
   }
 
-  async profile () {
-    const resp = await this.client.get('/v1/users/profile')
-    return resp.data
-  }
-
   async sync () {
     await this.client.post('/v1/games/sync')
   }
