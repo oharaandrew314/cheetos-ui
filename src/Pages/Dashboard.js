@@ -37,7 +37,13 @@ export default class Dashboard extends Component {
 
         <ul>
           {games.map(game => {
-            return <li key={game.id}>({game.platform}) {game.name}</li>
+            return (
+              <li key={game.uuid}>
+                <a href={`/games/${game.uuid}`}>
+                  ({game.platform}) {game.name}
+                </a>
+              </li>
+            )
           })}
         </ul>
       </div>
