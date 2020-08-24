@@ -14,6 +14,7 @@ export default class Header extends Component {
 
   render () {
     const profile = this.props.session.getProfile()
+    console.log(profile)
 
     return (
       <header>

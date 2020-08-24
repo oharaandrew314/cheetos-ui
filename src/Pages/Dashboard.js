@@ -1,20 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Profiler } from 'react'
 
-import CheetosClient from '../api/cheetosClient'
+import GamesList from '../Components/GamesList'
 
 export default class Dashboard extends Component {
   constructor (props) {
     super(props)
 
-    this.client = new CheetosClient()
-    this.state = { games: [] }
-  }
-
-  async componentDidMount () {
-    const { client } = this
-
-    const games = await client.games()
-    this.setState({ games })
+    this.state = { platform: 'Steam' }
   }
 
   async handleSync () {
@@ -23,29 +15,34 @@ export default class Dashboard extends Component {
     await client.sync()
   }
 
+  handlePlatformChange (event) {
+    const platform = event.target.value
+    this.setState({ platform })
+  }
+
   render () {
-    const { games } = this.state
+    const { profile } = this.props
+    const { platform } = this.state
+
+    const platforms = []
+    if (profile.steamId) platforms.push('Steam')
+    if (profile.xboxId) platforms.push('Xbox')
 
     return (
       <div>
         <h2>Dashboard</h2>
 
-        <h3>Games</h3>
         <button onClick={this.handleSync.bind(this)}>
           Sync
         </button>
 
-        <ul>
-          {games.map(game => {
-            return (
-              <li key={game.uuid}>
-                <a href={`/games/${game.uuid}`}>
-                  ({game.platform}) {game.name}
-                </a>
-              </li>
-            )
+        <select value={platform} onChange={this.handlePlatformChange.bind(this)}>
+          {platforms.map(p => {
+            return (<option value={p} key={p}>{p}</option>)
           })}
-        </ul>
+        </select>
+
+        <GamesList platform={platform} />
       </div>
     )
   }

@@ -6,16 +6,13 @@ import AchievementList from '../Components/AchievementList'
 export default class Game extends Component {
   constructor (props) {
     super(props)
-    this.state = { game: undefined, achievements: undefined }
+    this.state = { game: undefined }
   }
 
   async componentDidMount () {
-    const { uuid } = this.props.match.params
-    const game = await cheetosClient.game(uuid)
+    const { platform, id } = this.props.match.params
+    const game = await cheetosClient.game(platform, id)
     this.setState({ game })
-
-    const achievements = await cheetosClient.achievements(uuid)
-    this.setState({ achievements })
   }
 
   render () {

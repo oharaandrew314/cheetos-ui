@@ -37,13 +37,13 @@ export default class App extends Component {
         <Header session={session} />
         <BrowserRouter>
           <Switch>
-            <Route path='/auth/callback' component={Callback} />
-            <Route path='/profile'>
+            <Route path='/auth/callback' exact component={Callback} />
+            <Route path='/profile' exact>
               <Profile profile={session.getProfile()} />
             </Route>
-            <Route path='/games/:uuid' component={Game} />
+            <Route path='/games/:platform/:id' exact component={Game} />
             <Route path='/' exact>
-              <Dashboard session={session} />
+              <Dashboard profile={session.getProfile()} />
             </Route>
           </Switch>
         </BrowserRouter>

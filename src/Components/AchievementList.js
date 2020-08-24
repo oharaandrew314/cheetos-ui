@@ -5,12 +5,12 @@ import { cheetosClient } from '../api/cheetosClient'
 export default class AchievementList extends Component {
   constructor (props) {
     super(props)
-    this.state = { achievements: undefined }
+    this.state = { achievements: undefined, statuses: undefined }
   }
 
   async componentDidMount () {
     const { game } = this.props
-    const achievements = await cheetosClient.achievements(game.uuid)
+    const achievements = await cheetosClient.achievements(game.platform, game.id)
     this.setState({ achievements })
   }
 
@@ -36,12 +36,10 @@ export default class AchievementList extends Component {
     return (
       <div>
         <ul>
-          {achievements.map(data => {
-            const { achievement, status } = data
-
+          {achievements.map(achievement => {
             return (
               <li key={achievement.id}>
-                {achievement.name}: {status.unlockedOn ? 'DONE!' : ''}
+                {achievement.name}:
               </li>
             )
           })}
