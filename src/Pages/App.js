@@ -6,7 +6,7 @@ import Dashboard from './Dashboard'
 import Header from '../Components/Header'
 import Profile from './Profile'
 import SessionManager from '../auth/sessionManager'
-import Game from './Game'
+import GamePage from './GamePage'
 
 function Callback () {
   window.location = '/'
@@ -41,7 +41,7 @@ export default class App extends Component {
             <Route path='/profile' exact>
               <Profile profile={session.getProfile()} />
             </Route>
-            <Route path='/games/:platform/:id' exact component={Game} />
+            <Route path='/games/:platform/:id' exact component={GamePage} />
             <Route path='/' exact>
               <Dashboard profile={session.getProfile()} />
             </Route>

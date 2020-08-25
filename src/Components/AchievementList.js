@@ -5,19 +5,40 @@ import { cheetosClient } from '../api/cheetosClient'
 export default class AchievementList extends Component {
   constructor (props) {
     super(props)
-    this.state = { achievements: undefined, statuses: undefined }
+    this.state = { achievementDetails: undefined }
   }
 
   async componentDidMount () {
-    const { game } = this.props
+    const { game, player } = this.props
+
     const achievements = await cheetosClient.achievements(game.platform, game.id)
-    this.setState({ achievements })
+    console.log(achievements)
+    if (achievements.length === 0) {
+      this.setState({ achievementDetails: [] })
+      return
+    }
+
+    const statuses = await cheetosClient.achievementStatuses(game.platform, game.id, player.id)
+    console.log(statuses)
+
+    const statusesByAchievementId = statuses.reduce((map, status) => {
+      map[status.achivementId] = status
+      return map
+    })
+
+    const achievementDetails = achievements.map(achievement => {
+      const status = statusesByAchievementId[achievement.id]
+      return { achievement, status }
+    })
+    console.log(achievementDetails)
+
+    this.setState({ achievementDetails })
   }
 
   render () {
-    const { achievements } = this.state
+    const { achievementDetails } = this.state
 
-    if (achievements === undefined) {
+    if (achievementDetails === undefined) {
       return (
         <div>
           Loading...
@@ -25,7 +46,7 @@ export default class AchievementList extends Component {
       )
     }
 
-    if (achievements.length === 0) {
+    if (achievementDetails.length === 0) {
       return (
         <div>
           There are no achievements for this game :(
@@ -36,10 +57,11 @@ export default class AchievementList extends Component {
     return (
       <div>
         <ul>
-          {achievements.map(achievement => {
+          {achievementDetails.map(details => {
+            const { achievement, status } = details
             return (
               <li key={achievement.id}>
-                {achievement.name}:
+                {achievement.name} {status && status.unlockedOn ? 'DONE!' : ''}
               </li>
             )
           })}

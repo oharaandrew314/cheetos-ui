@@ -6,19 +6,23 @@ import AchievementList from '../Components/AchievementList'
 export default class Game extends Component {
   constructor (props) {
     super(props)
-    this.state = { game: undefined }
+    this.state = { game: undefined, player: undefined }
   }
 
   async componentDidMount () {
     const { platform, id } = this.props.match.params
+
     const game = await cheetosClient.game(platform, id)
     this.setState({ game })
+
+    const player = await cheetosClient.getMyPlayer(platform)
+    this.setState({ player })
   }
 
   render () {
-    const { game } = this.state
+    const { game, player } = this.state
 
-    if (!game) {
+    if (!game || !player) {
       return (
         <div>
           Loading...
@@ -30,7 +34,7 @@ export default class Game extends Component {
       <div>
         <h2>({game.platform}) {game.name}</h2>
 
-        <AchievementList game={game} />
+        <AchievementList game={game} player={player} />
       </div>
     )
   }

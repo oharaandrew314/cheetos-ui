@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import GamesList from '../Components/GamesList'
+import { cheetosClient } from '../api/cheetosClient'
 
 export default class Dashboard extends Component {
   constructor (props) {
@@ -10,9 +11,7 @@ export default class Dashboard extends Component {
   }
 
   async handleSync () {
-    const { client } = this
-
-    await client.sync()
+    await cheetosClient.sync()
   }
 
   handlePlatformChange (event) {

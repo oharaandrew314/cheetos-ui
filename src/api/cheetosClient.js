@@ -38,6 +38,11 @@ export default class CheetosClient {
     const resp = await this.client.get(`/v1/friends/${platform}`)
     return resp.data
   }
+
+  async getMyPlayer (platform) {
+    const resp = await this.client.get(`/v1/players/me/${platform}`)
+    return resp.data
+  }
 }
 
 export const cheetosClient = new CheetosClient()
