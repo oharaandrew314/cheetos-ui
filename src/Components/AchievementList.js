@@ -11,26 +11,23 @@ export default class AchievementList extends Component {
   async componentDidMount () {
     const { game, player } = this.props
 
-    const achievements = await cheetosClient.achievements(game.platform, game.id)
-    console.log(achievements)
+    const achievementsFuture = cheetosClient.achievements(game.platform, game.id)
+    const statusesFuture = cheetosClient.achievementStatuses(game.platform, game.id, player.id)
+
+    const achievements = await achievementsFuture
+    const statuses = await statusesFuture
+
     if (achievements.length === 0) {
       this.setState({ achievementDetails: [] })
       return
     }
 
-    const statuses = await cheetosClient.achievementStatuses(game.platform, game.id, player.id)
-    console.log(statuses)
-
-    const statusesByAchievementId = statuses.reduce((map, status) => {
-      map[status.achivementId] = status
-      return map
-    })
+    const statusesByAchievementId = new Map(statuses.map(i => [i.achievementId, i]))
 
     const achievementDetails = achievements.map(achievement => {
-      const status = statusesByAchievementId[achievement.id]
+      const status = statusesByAchievementId.get(achievement.id)
       return { achievement, status }
     })
-    console.log(achievementDetails)
 
     this.setState({ achievementDetails })
   }
