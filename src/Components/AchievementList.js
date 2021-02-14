@@ -9,10 +9,10 @@ export default class AchievementList extends Component {
   }
 
   async componentDidMount () {
-    const { game, player } = this.props
+    const { game } = this.props
 
     const achievementsFuture = cheetosClient.achievements(game.platform, game.id)
-    const statusesFuture = cheetosClient.achievementStatuses(game.platform, game.id, player.id)
+    const statusesFuture = cheetosClient.achievementStatuses(game.platform, game.id)
 
     const achievements = await achievementsFuture
     const statuses = await statusesFuture

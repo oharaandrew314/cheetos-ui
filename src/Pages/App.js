@@ -34,8 +34,8 @@ export default class App extends Component {
 
     return (
       <div>
-        <Header session={session} />
         <BrowserRouter>
+          <Header session={session} />
           <Switch>
             <Route path='/auth/callback' exact component={Callback} />
             <Route path='/profile' exact>

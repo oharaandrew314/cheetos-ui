@@ -14,33 +14,27 @@ export default class CheetosClient {
     await this.client.post('/v1/sync')
   }
 
+  async syncPlatform (platform) {
+    await this.client.post(`/v1/sync/${platform}`)
+  }
+
   async games (platform) {
     const resp = await this.client.get(`/v1/games/${platform}`)
     return resp.data
   }
 
-  async game (platform, id) {
-    const resp = await this.client.get(`/v1/games/${platform}/${id}`)
+  async game (platform, gameId) {
+    const resp = await this.client.get(`/v1/games/${platform}/${gameId}`)
     return resp.data
   }
 
-  async achievements (platform, id) {
-    const resp = await this.client.get(`/v1/games/${platform}/${id}/achievements`)
+  async achievements (platform, gameId) {
+    const resp = await this.client.get(`/v1/games/${platform}/${gameId}/achievements`)
     return resp.data
   }
 
-  async achievementStatuses (platform, gameId, playerId) {
-    const resp = await this.client.get(`/v1/games/${platform}/${gameId}/achievements/${playerId}`)
-    return resp.data
-  }
-
-  async friends (platform) {
-    const resp = await this.client.get(`/v1/friends/${platform}`)
-    return resp.data
-  }
-
-  async getMyPlayer (platform) {
-    const resp = await this.client.get(`/v1/players/me/${platform}`)
+  async achievementStatuses (platform, gameId) {
+    const resp = await this.client.get(`/v1/games/${platform}/${gameId}/achievements/status`)
     return resp.data
   }
 }

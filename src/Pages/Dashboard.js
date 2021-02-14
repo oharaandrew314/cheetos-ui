@@ -11,7 +11,8 @@ export default class Dashboard extends Component {
   }
 
   async handleSync () {
-    await cheetosClient.sync()
+    const { platform } = this.state
+    await cheetosClient.syncPlatform(platform)
   }
 
   handlePlatformChange (event) {
@@ -29,7 +30,9 @@ export default class Dashboard extends Component {
 
     return (
       <div>
-        <h2>Dashboard</h2>
+        <h3>
+          Dashboard
+        </h3>
 
         <button onClick={this.handleSync.bind(this)}>
           Sync

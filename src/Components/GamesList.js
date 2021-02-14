@@ -41,7 +41,7 @@ export default class GamesList extends Component {
     if (games.length === 0) {
       return (
         <div>
-          You have no ${platform} games :(
+          You have no {platform} games :(
         </div>
       )
     }
