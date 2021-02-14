@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 
 import { APP_NAME } from '../Constants'
@@ -15,8 +16,8 @@ const styles = {
   root: {
     flexGrow: 1
   },
-  menuButton: {
-    marginRight: 100
+  avatar: {
+    marginLeft: 10
   },
   title: {
     flexGrow: 1
@@ -48,12 +49,17 @@ function Header (props) {
           <Typography variant='h3' className={classes.title} color='inherit' to='/' component={Link}>
             {APP_NAME}
           </Typography>
-
-          <Typography variant='h5' color='inherit' to='/profile' component={Link}>
+          <Typography variant='h5' color='inherit'>
             {profile.displayName}
           </Typography>
-
-          <Avatar alt={profile.displayName} src={profile.avatar} onClick={handleClickAvatar} />
+          <Button>
+            <Avatar
+              className={classes.avatar}
+              alt={profile.displayName}
+              src={profile.avatar}
+              onClick={handleClickAvatar}
+            />
+          </Button>
           <Menu
             id='session-dropdown'
             anchorEl={anchorEl}
@@ -61,7 +67,12 @@ function Header (props) {
             open={Boolean(anchorEl)}
             onClose={handleCloseSessionDropdown}
           >
-            <MenuItem>{profile.displayName}</MenuItem>
+            <MenuItem
+              to='/profile' component={Link}
+              onClick={handleCloseSessionDropdown}
+            >
+              {profile.displayName}
+            </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
