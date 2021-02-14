@@ -20,32 +20,30 @@ export default class App extends Component {
 
   render () {
     const { session } = this
-
-    if (!session.isAuthenticated()) {
-      return (
-        <BrowserRouter>
-          <Switch>
-            <Route path='/auth/callback' component={Callback} />
-            <Route path='/' component={Public} />
-          </Switch>
-        </BrowserRouter>
-      )
-    }
-
+    const paths = session.isAuthenticated()
+      ? (
+        <Switch>
+          <Route path='/auth/callback' exact component={Callback} />
+          <Route path='/profile' exact>
+            <Profile profile={session.getProfile()} />
+          </Route>
+          <Route path='/games/:platform/:id' exact component={GamePage} />
+          <Route path='/' exact>
+            <Dashboard profile={session.getProfile()} />
+          </Route>
+        </Switch>
+        )
+      : (
+        <Switch>
+          <Route path='/auth/callback' component={Callback} />
+          <Route path='/' component={Public} />
+        </Switch>
+        )
     return (
       <div>
         <BrowserRouter>
           <Header session={session} />
-          <Switch>
-            <Route path='/auth/callback' exact component={Callback} />
-            <Route path='/profile' exact>
-              <Profile profile={session.getProfile()} />
-            </Route>
-            <Route path='/games/:platform/:id' exact component={GamePage} />
-            <Route path='/' exact>
-              <Dashboard profile={session.getProfile()} />
-            </Route>
-          </Switch>
+          {paths}
         </BrowserRouter>
       </div>
     )
