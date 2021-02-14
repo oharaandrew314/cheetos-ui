@@ -29,7 +29,7 @@ export default class App extends Component {
           </Route>
           <Route path='/games/:platform/:id' exact component={GamePage} />
           <Route path='/' exact>
-            <Dashboard profile={session.getProfile()} />
+            <Dashboard />
           </Route>
         </Switch>
         )

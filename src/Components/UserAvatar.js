@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
+
+import { cheetosClient } from '../api/cheetosClient'
 
 const styles = {
   avatar: {
@@ -32,6 +33,11 @@ function UserAvatar (props) {
     setAnchorEl(null)
   }
 
+  const handleSync = async () => {
+    await cheetosClient.sync()
+    handleCloseSessionDropdown()
+  }
+
   return (
     <span>
       <Button>
@@ -55,6 +61,7 @@ function UserAvatar (props) {
         >
           {profile.displayName}
         </MenuItem>
+        <MenuItem onClick={handleSync}>Sync</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </span>

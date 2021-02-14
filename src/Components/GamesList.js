@@ -1,55 +1,54 @@
 import React, { Component } from 'react'
 
+import TextField from '@material-ui/core/TextField'
+
 import { cheetosClient } from '../api/cheetosClient'
 
 export default class GamesList extends Component {
   constructor (props) {
     super(props)
-    this.state = { games: undefined }
+    this.state = {
+      games: undefined,
+      displayed: []
+    }
   }
 
   async componentDidMount () {
-    this.update()
-  }
-
-  componentDidUpdate (prevProps) {
-    const { platform } = this.props
-    if (platform === prevProps.platform) return
-
-    this.setState({ games: undefined })
-    this.update()
+    await this.update()
   }
 
   async update () {
-    const { platform } = this.props
-    const games = await cheetosClient.games(platform)
-    this.setState({ games })
+    const games = await cheetosClient.games()
+    this.setState({ games, displayed: games })
   }
 
   render () {
-    const { platform } = this.props
-    const { games } = this.state
+    const { games, displayed } = this.state
 
-    if (games === undefined) {
-      return (
-        <div>
-          Loading...
-        </div>
-      )
+    const onSearchUpdate = (event) => {
+      const { games } = this.state
+      const value = event.target.value
+
+      const displayed = games
+        .filter(game => game.name.toLowerCase().includes(value.toLowerCase()))
+
+      this.setState({ displayed })
     }
 
-    if (games.length === 0) {
-      return (
-        <div>
-          You have no {platform} games :(
-        </div>
-      )
-    }
+    const getContent = () => {
+      if (games === undefined) {
+        return <div>Loading...</div>
+      }
+      if (games.length === 0) {
+        return <div>You have no games :(</div>
+      }
+      if (displayed.length === 0) {
+        return <div>No games found</div>
+      }
 
-    return (
-      <div>
+      return (
         <ul>
-          {games.map(game => {
+          {displayed.map(game => {
             return (
               <li key={`${game.platform}-${game.id}`}>
                 <a href={`/games/${game.platform}/${game.id}`}>
@@ -59,6 +58,13 @@ export default class GamesList extends Component {
             )
           })}
         </ul>
+      )
+    }
+
+    return (
+      <div>
+        <TextField label='Search Games...' variant='outlined' fullWidth onChange={onSearchUpdate} />
+        {getContent()}
       </div>
     )
   }

@@ -14,12 +14,8 @@ export default class CheetosClient {
     await this.client.post('/v1/sync')
   }
 
-  async syncPlatform (platform) {
-    await this.client.post(`/v1/sync/${platform}`)
-  }
-
-  async games (platform) {
-    const resp = await this.client.get(`/v1/games/${platform}`)
+  async games () {
+    const resp = await this.client.get('/v1/games')
     return resp.data
   }
 

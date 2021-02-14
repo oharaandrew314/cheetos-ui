@@ -18,6 +18,9 @@ const styles = {
   },
   title: {
     flexGrow: 1
+  },
+  toolbar: {
+    marginBottom: 20
   }
 }
 
