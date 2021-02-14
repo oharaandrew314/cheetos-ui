@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 
 import TextField from '@material-ui/core/TextField'
+import { withStyles } from '@material-ui/core/styles'
 
 import { cheetosClient } from '../api/cheetosClient'
+import GameCard from './GameCard'
 
-export default class GamesList extends Component {
+const styles = {
+  search: {
+    marginBottom: 20
+  }
+}
+
+class GamesList extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -23,6 +31,7 @@ export default class GamesList extends Component {
   }
 
   render () {
+    const { classes } = this.props
     const { games, displayed } = this.state
 
     const onSearchUpdate = (event) => {
@@ -46,26 +55,16 @@ export default class GamesList extends Component {
         return <div>No games found</div>
       }
 
-      return (
-        <ul>
-          {displayed.map(game => {
-            return (
-              <li key={`${game.platform}-${game.id}`}>
-                <a href={`/games/${game.platform}/${game.id}`}>
-                  ({game.platform}) {game.name}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      )
+      return displayed.map(game => <GameCard key={`${game.platform}-${game.id}`} game={game} />)
     }
 
     return (
       <div>
-        <TextField label='Search Games...' variant='outlined' fullWidth onChange={onSearchUpdate} />
+        <TextField className={classes.search} label='Search Games...' variant='outlined' fullWidth onChange={onSearchUpdate} />
         {getContent()}
       </div>
     )
   }
 }
+
+export default withStyles(styles)(GamesList)
