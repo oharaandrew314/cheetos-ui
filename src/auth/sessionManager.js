@@ -1,13 +1,5 @@
 import jwtDecode from 'jwt-decode'
-
-function getCookie (name) {
-  const cookie = {}
-  document.cookie.split(';').forEach((el) => {
-    const [k, v] = el.split('=')
-    cookie[k.trim()] = v
-  })
-  return cookie[name]
-}
+import { ID_TOKEN_COOKIE } from '../Constants'
 
 function deleteCookie (name) {
   document.cookie = `${name}= ;expires=Thu, 01 Jan 1970 00:00:01 GMT`
@@ -15,20 +7,26 @@ function deleteCookie (name) {
 
 export default class SessionManager {
   isAuthenticated () {
-    return this.getProfile() !== undefined
+    return Boolean(this.getProfile())
+  }
+
+  login (token) {
+    document.cookie = `${ID_TOKEN_COOKIE}=${token}; Path=/;`
+
+    try {
+      const profile = jwtDecode(token)
+      window.localStorage.setItem('profile', JSON.stringify(profile))
+    } catch (e) {
+      console.log(`Error decoding token: ${e}`)
+    }
   }
 
   logout () {
-    deleteCookie('cheetosbros-id-token')
+    deleteCookie(ID_TOKEN_COOKIE)
+    window.localStorage.clear()
   }
 
   getProfile () {
-    const token = getCookie('cheetosbros-id-token')
-
-    try {
-      return jwtDecode(token)
-    } catch (e) {
-      return undefined
-    }
+    return JSON.parse(window.localStorage.getItem('profile'))
   }
 }
