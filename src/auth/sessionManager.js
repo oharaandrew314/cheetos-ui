@@ -1,8 +1,8 @@
 import jwtDecode from 'jwt-decode'
-import { ID_TOKEN_COOKIE } from '../Constants'
+import { ID_TOKEN_COOKIE, API_HOST } from '../Constants'
 
 function deleteCookie (name) {
-  document.cookie = `${name}= ;expires=Thu, 01 Jan 1970 00:00:01 GMT`
+  document.cookie = `${name}= ;expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=${API_HOST};`
 }
 
 export default class SessionManager {
