@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
 
-import { cheetosClient } from '../api/cheetosClient'
+import CheetosClient from '../api/cheetosClient'
 import GameCard from './GameCard'
 
 const styles = {
@@ -26,7 +26,7 @@ class GamesList extends Component {
   }
 
   async update () {
-    const games = await cheetosClient.games()
+    const games = await new CheetosClient().games()
     this.setState({ games, displayed: games })
   }
 

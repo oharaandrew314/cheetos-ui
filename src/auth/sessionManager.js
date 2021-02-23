@@ -1,9 +1,7 @@
 import jwtDecode from 'jwt-decode'
-import { ID_TOKEN_COOKIE, API_HOST } from '../Constants'
 
-function deleteCookie (name) {
-  document.cookie = `${name}= ;expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=${API_HOST};`
-}
+const SESSION = 'session'
+const PROFILE = 'profile'
 
 export default class SessionManager {
   isAuthenticated () {
@@ -11,22 +9,24 @@ export default class SessionManager {
   }
 
   login (token) {
-    document.cookie = `${ID_TOKEN_COOKIE}=${token}; Path=/;`
-
     try {
       const profile = jwtDecode(token)
-      window.localStorage.setItem('profile', JSON.stringify(profile))
+      window.localStorage.setItem(SESSION, token)
+      window.localStorage.setItem(PROFILE, JSON.stringify(profile))
     } catch (e) {
       console.log(`Error decoding token: ${e}`)
     }
   }
 
   logout () {
-    deleteCookie(ID_TOKEN_COOKIE)
     window.localStorage.clear()
   }
 
   getProfile () {
-    return JSON.parse(window.localStorage.getItem('profile'))
+    return JSON.parse(window.localStorage.getItem(PROFILE))
+  }
+
+  getSessionToken () {
+    return window.localStorage.getItem(SESSION)
   }
 }

@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 
-import { cheetosClient } from '../api/cheetosClient'
+import CheetosClient from '../api/cheetosClient'
 
 const styles = {
   avatar: {
@@ -34,7 +34,7 @@ function UserAvatar (props) {
   }
 
   const handleSync = async () => {
-    await cheetosClient.sync()
+    await new CheetosClient().sync()
     handleCloseSessionDropdown()
   }
 

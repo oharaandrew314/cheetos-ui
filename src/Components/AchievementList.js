@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { cheetosClient } from '../api/cheetosClient'
+import CheetosClient from '../api/cheetosClient'
 
 export default class AchievementList extends Component {
   constructor (props) {
@@ -11,8 +11,9 @@ export default class AchievementList extends Component {
   async componentDidMount () {
     const { game } = this.props
 
-    const achievementsFuture = cheetosClient.achievements(game.platform, game.id)
-    const statusesFuture = cheetosClient.achievementStatuses(game.platform, game.id)
+    const client = new CheetosClient()
+    const achievementsFuture = client.achievements(game.platform, game.id)
+    const statusesFuture = client.achievementStatuses(game.platform, game.id)
 
     const achievements = await achievementsFuture
     const statuses = await statusesFuture

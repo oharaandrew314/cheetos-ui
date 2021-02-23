@@ -1,12 +1,16 @@
 import axios from 'axios'
 
 import { API_HOST } from '../Constants'
+import SessionManager from '../auth/sessionManager'
 
 export default class CheetosClient {
   constructor (host) {
+    const session = new SessionManager()
     this.client = axios.create({
       baseURL: host || API_HOST,
-      withCredentials: true
+      headers: {
+        Authorization: `Bearer ${session.getSessionToken()}`
+      }
     })
   }
 
@@ -34,5 +38,3 @@ export default class CheetosClient {
     return resp.data
   }
 }
-
-export const cheetosClient = new CheetosClient()

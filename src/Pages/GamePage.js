@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { cheetosClient } from '../api/cheetosClient'
+import CheetosClient from '../api/cheetosClient'
 import AchievementList from '../Components/AchievementList'
 
 export default class Game extends Component {
@@ -12,7 +12,7 @@ export default class Game extends Component {
   async componentDidMount () {
     const { platform, id } = this.props.match.params
 
-    const game = await cheetosClient.game(platform, id)
+    const game = await new CheetosClient().game(platform, id)
     this.setState({ game })
   }
 
