@@ -34,7 +34,6 @@ export default class CheetosClient {
 
   async achievements (platform, gameId) {
     const resp = await this.client.get(`/v1/games/${platform}/${gameId}/achievements`)
-    console.log(resp.data)
     return resp.data.map(a => new Achievement(a.id, a.name, a.description, a.hidden, a.icons, a.score, a.unlockedOn, a.unlocked))
   }
 }

@@ -20,7 +20,6 @@ function PlatformIcon (props) {
         <SteamIcon />
       </SvgIcon>
     )
-    // return <img className={classes.root} src='/img/steam_logo.png' alt={platform} />
   }
   return undefined
 }

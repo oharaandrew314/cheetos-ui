@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import FadeIn from 'react-fade-in'
 
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import CheetosClient from '../api/cheetosClient'
 import GameCard from './GameCard'
@@ -22,10 +24,6 @@ class GamesList extends Component {
   }
 
   async componentDidMount () {
-    await this.update()
-  }
-
-  async update () {
     const games = await new CheetosClient().games()
     this.setState({ games, displayed: games })
   }
@@ -46,7 +44,7 @@ class GamesList extends Component {
 
     const getContent = () => {
       if (games === undefined) {
-        return <div>Loading...</div>
+        return <CircularProgress size={200} />
       }
       if (games.length === 0) {
         return <div>You have no games :(</div>
@@ -55,7 +53,11 @@ class GamesList extends Component {
         return <div>No games found</div>
       }
 
-      return displayed.map(game => <GameCard key={`${game.uid}`} game={game} />)
+      return displayed.map(game => (
+        <FadeIn key={game.uid}>
+          <GameCard game={game} />
+        </FadeIn>
+      ))
     }
 
     return (
