@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import FadeIn from 'react-fade-in'
+import InfiniteScroll from 'react-infinite-scroller'
 
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
@@ -19,45 +20,38 @@ class GamesList extends Component {
     super(props)
     this.state = {
       games: undefined,
-      displayed: []
+      filtered: undefined
     }
   }
 
   async componentDidMount () {
     const games = await new CheetosClient().games()
-    this.setState({ games, displayed: games })
+    this.setState({ games, filtered: games })
   }
 
   render () {
     const { classes } = this.props
-    const { games, displayed } = this.state
+    const { filtered } = this.state
 
     const onSearchUpdate = (event) => {
       const { games } = this.state
       const value = event.target.value
 
-      const displayed = games
+      const filtered = games
         .filter(game => game.name.toLowerCase().includes(value.toLowerCase()))
 
-      this.setState({ displayed })
+      this.setState({ filtered, numToDisplay: 20 })
     }
 
     const getContent = () => {
-      if (games === undefined) {
+      if (filtered === undefined) {
         return <CircularProgress size={200} />
       }
-      if (games.length === 0) {
-        return <div>You have no games :(</div>
-      }
-      if (displayed.length === 0) {
+      if (filtered.length === 0) {
         return <div>No games found</div>
       }
 
-      return displayed.map(game => (
-        <FadeIn key={game.uid}>
-          <GameCard game={game} />
-        </FadeIn>
-      ))
+      return <LoadingGameList games={filtered} />
     }
 
     return (
@@ -65,6 +59,43 @@ class GamesList extends Component {
         <TextField className={classes.search} label='Search Games...' variant='outlined' fullWidth onChange={onSearchUpdate} />
         {getContent()}
       </div>
+    )
+  }
+}
+
+class LoadingGameList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { numLoaded: 20 }
+  }
+
+  render () {
+    const { games } = this.props
+    const { numLoaded } = this.state
+
+    const loadMore = () => {
+      this.setState((prevState) => ({
+        numLoaded: prevState.numLoaded + 20
+      }))
+    }
+
+    return (
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={loadMore}
+        hasMore={numLoaded < games.length}
+        loader={<CircularProgress />}
+      >
+        {
+          games
+            .slice(0, numLoaded)
+            .map(game => (
+              <FadeIn key={game.uid}>
+                <GameCard game={game} />
+              </FadeIn>
+            ))
+        }
+      </InfiniteScroll>
     )
   }
 }
