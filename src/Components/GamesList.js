@@ -55,7 +55,7 @@ class GamesList extends Component {
         return <div>No games found</div>
       }
 
-      return displayed.map(game => <GameCard key={`${game.platform}-${game.id}`} game={game} />)
+      return displayed.map(game => <GameCard key={`${game.uid}`} game={game} />)
     }
 
     return (

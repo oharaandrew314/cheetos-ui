@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Moment from 'react-moment'
+
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -7,6 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 import Progress from './Progress'
+import PlatformIcon from './PlatformIcon'
 
 const styles = {
   root: {
@@ -20,25 +23,13 @@ const styles = {
     margin: 5,
     maxHeight: 200,
     minWidth: 100
-  },
-  platform: {
-    width: 40,
-    margin: 10
   }
-}
-
-function logoUrl (game) {
-  if (game.platform === 'Steam') {
-    return '/img/steam_logo.png'
-  }
-  return undefined
 }
 
 function GameCard (props) {
   const { game, classes } = props
-
   const handleClick = () => {
-    window.location = `/games/${game.platform}/${game.id}`
+    window.location = `/games/${game.uid.platform}/${game.uid.id}`
   }
 
   return (
@@ -47,12 +38,17 @@ function GameCard (props) {
         <CardContent>
           <div className={classes.content}>
             <img className={classes.media} src={game.displayImage} alt={game.name} />
-            <img className={classes.platform} src={logoUrl(game)} alt='steam' />
+            <PlatformIcon platform={game.uid.platform} />
             <Typography gutterBottom variant='h5' component='h2'>
               {game.name}
             </Typography>
           </div>
-          <Progress value={13} total={34} />
+          {
+            game.achievementsTotal > 0
+              ? (<Progress value={game.achievementsCurrent} total={game.achievementsTotal} />)
+              : undefined
+          }
+          Updated <Moment date={game.lastUpdated} fromNow />
         </CardContent>
       </CardActionArea>
     </Card>

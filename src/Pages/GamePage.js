@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import CheetosClient from '../api/cheetosClient'
 import AchievementList from '../Components/AchievementList'
+import GameCard from '../Components/GameCard'
 
 export default class Game extends Component {
   constructor (props) {
@@ -29,7 +30,7 @@ export default class Game extends Component {
 
     return (
       <div>
-        <h2>({game.platform}) {game.name}</h2>
+        <GameCard game={game} />
 
         <AchievementList game={game} />
       </div>

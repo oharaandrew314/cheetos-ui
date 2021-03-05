@@ -1,42 +1,27 @@
 import React, { Component } from 'react'
 
 import CheetosClient from '../api/cheetosClient'
+import AchievementCard from './AchievementCard'
 
 export default class AchievementList extends Component {
   constructor (props) {
     super(props)
-    this.state = { achievementDetails: undefined }
+    this.state = { achievements: undefined }
   }
 
   async componentDidMount () {
     const { game } = this.props
-
     const client = new CheetosClient()
-    const achievementsFuture = client.achievements(game.platform, game.id)
-    const statusesFuture = client.achievementStatuses(game.platform, game.id)
 
-    const achievements = await achievementsFuture
-    const statuses = await statusesFuture
-
-    if (achievements.length === 0) {
-      this.setState({ achievementDetails: [] })
-      return
-    }
-
-    const statusesByAchievementId = new Map(statuses.map(i => [i.achievementId, i]))
-
-    const achievementDetails = achievements.map(achievement => {
-      const status = statusesByAchievementId.get(achievement.id)
-      return { achievement, status }
-    })
-
-    this.setState({ achievementDetails })
+    const achievements = await client.achievements(game.platform, game.id)
+    console.log(achievements)
+    this.setState({ achievements })
   }
 
   render () {
-    const { achievementDetails } = this.state
+    const { achievements } = this.state
 
-    if (achievementDetails === undefined) {
+    if (achievements === undefined) {
       return (
         <div>
           Loading...
@@ -44,7 +29,7 @@ export default class AchievementList extends Component {
       )
     }
 
-    if (achievementDetails.length === 0) {
+    if (achievements.length === 0) {
       return (
         <div>
           There are no achievements for this game :(
@@ -52,19 +37,6 @@ export default class AchievementList extends Component {
       )
     }
 
-    return (
-      <div>
-        <ul>
-          {achievementDetails.map(details => {
-            const { achievement, status } = details
-            return (
-              <li key={achievement.id}>
-                {achievement.name} {status && status.unlockedOn ? 'DONE!' : ''}
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    )
+    return achievements.map(achievement => <AchievementCard key={achievement.id} achievement={achievement} />)
   }
 }
