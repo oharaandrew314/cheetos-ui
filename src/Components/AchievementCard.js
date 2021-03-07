@@ -51,7 +51,7 @@ function Status (props) {
             )
           : undefined
       }
-      <Tooltip title={achievement.unlocked ? <Moment date={achievement.unlockedOn} fromNow /> : 'Not Unlocked'}>
+      <Tooltip title={achievement.unlocked ? <Moment date={achievement.unlockedOn} /> : 'Not Unlocked'}>
         <CheckCircleOutlineIcon className={achievement.unlocked ? classes.completed : classes.notCompleted} />
       </Tooltip>
     </div>
