@@ -30,7 +30,7 @@ const styles = {
 class AchievementList extends Component {
   constructor (props) {
     super(props)
-    this.state = { show: 'all', sortBy: 'unlocked', order: 'asc' }
+    this.state = { show: 'all', sortBy: 'unlocked', order: 'desc' }
   }
 
   handleChangeShow (evt) {
