@@ -8,15 +8,14 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 import { green, grey } from '@material-ui/core/colors'
-import Accordion from '@material-ui/core/Accordion'
-import AccordionSummary from '@material-ui/core/AccordionSummary'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
+import Paper from '@material-ui/core/Paper'
 
 import AchievementIcon from './AchievementIcon'
 
 const styles = {
   root: {
     margin: 5,
+    padding: 5,
     maxWidth: 1024
   },
   completed: {
@@ -31,6 +30,9 @@ const styles = {
   hidden: {
     fontSize: 40,
     color: grey[500]
+  },
+  topRow: {
+    display: 'flex'
   },
   left: {
     flexGrow: 1
@@ -62,21 +64,20 @@ function AchievementCard (props) {
   const { achievement, classes } = props
 
   return (
-    <Accordion className={classes.root}>
-      <AccordionSummary className={classes.root}>
+    <Paper className={classes.root}>
+      <div className={classes.topRow}>
         <AchievementIcon className={classes.left} achievement={achievement} />
         <Typography className={classes.left} gutterBottom variant='h5' component='h2'>
           {achievement.name}
         </Typography>
         <Status achievement={achievement} classes={classes} />
-      </AccordionSummary>
-
-      <AccordionDetails>
-        <Typography>
-          {achievement.description || 'No description...'}
-        </Typography>
-      </AccordionDetails>
-    </Accordion>
+      </div>
+      {
+        achievement.description
+          ? <Typography> {achievement.description}</Typography>
+          : undefined
+      }
+    </Paper>
   )
 }
 
