@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import StarIcon from '@material-ui/icons/Star'
+import { yellow } from '@material-ui/core/colors'
 
 import Progress from './Progress'
 import PlatformIcon from './PlatformIcon'
@@ -22,7 +24,19 @@ const styles = {
   media: {
     margin: 5,
     maxHeight: 200,
-    minWidth: 100
+    minWidth: 100,
+    maxWidth: 300,
+    flexGrow: 1
+  },
+  completeIcon: {
+    fontSize: 40,
+    color: yellow[500]
+  },
+  platform: {
+    flexGrow: 1
+  },
+  name: {
+    flexGrow: 1
   }
 }
 
@@ -38,10 +52,15 @@ function GameCard (props) {
         <CardContent>
           <div className={classes.content}>
             <img className={classes.media} src={game.displayImage} alt={game.name} />
-            <PlatformIcon platform={game.uid.platform} />
-            <Typography gutterBottom variant='h5' component='h2'>
+            <PlatformIcon className={classes.platform} platform={game.uid.platform} />
+            <Typography gutterBottom variant='h5' component='h2' className={classes.name}>
               {game.name}
             </Typography>
+            {
+              game.completion() === 1
+                ? <StarIcon className={classes.completeIcon} />
+                : undefined
+            }
           </div>
           {
             game.achievementsTotal > 0

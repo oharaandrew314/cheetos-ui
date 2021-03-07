@@ -14,4 +14,10 @@ export default class Game {
 
     this.lastUpdated = lastUpdated
   }
+
+  completion () {
+    if (this.achievementsTotal === 0) return undefined
+
+    return this.achievementsCurrent / this.achievementsTotal
+  }
 }
