@@ -40,7 +40,7 @@ class GamesList extends Component {
       const filtered = games
         .filter(game => game.name.toLowerCase().includes(value.toLowerCase()))
 
-      this.setState({ filtered, numToDisplay: 20 })
+      this.setState({ filtered })
     }
 
     const getContent = () => {
@@ -66,7 +66,13 @@ class GamesList extends Component {
 class LoadingGameList extends Component {
   constructor (props) {
     super(props)
-    this.state = { numLoaded: 20 }
+    this.state = { numLoaded: 0 }
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (prevProps.games.length !== this.props.games.length) {
+      this.setState({ numLoaded: 0 })
+    }
   }
 
   render () {
@@ -79,22 +85,21 @@ class LoadingGameList extends Component {
       }))
     }
 
+    const items = games
+      .slice(0, numLoaded)
+      .map(game => (
+        <FadeIn key={game.uid}>
+          <GameCard game={game} />
+        </FadeIn>
+      ))
+
     return (
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
         hasMore={numLoaded < games.length}
-        loader={<CircularProgress />}
       >
-        {
-          games
-            .slice(0, numLoaded)
-            .map(game => (
-              <FadeIn key={game.uid}>
-                <GameCard game={game} />
-              </FadeIn>
-            ))
-        }
+        {items}
       </InfiniteScroll>
     )
   }

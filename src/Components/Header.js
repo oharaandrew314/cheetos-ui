@@ -10,9 +10,6 @@ import { APP_NAME } from '../Constants'
 import Session from './UserAvatar'
 
 const styles = {
-  root: {
-    flexGrow: 1
-  },
   avatar: {
     marginLeft: 10
   },
@@ -35,8 +32,10 @@ function DisplayName (props) {
 
 function Header (props) {
   const { classes, session } = props
+
   const displayName = session.isAuthenticated() ? <DisplayName profile={session.getProfile()} /> : undefined
   const userAvatar = session.isAuthenticated() ? <Session session={session} /> : undefined
+
   return (
     <header>
       <AppBar position='static' className={classes.toolbar}>
