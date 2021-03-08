@@ -19,10 +19,10 @@ const styles = {
 }
 
 function Progress (props) {
-  const { classes, value, total } = props
+  const { classes, value, total, secondary } = props
   return (
     <div className={classes.root}>
-      <LinearProgress className={classes.progress} variant='determinate' value={value * 100 / total} />
+      <LinearProgress className={classes.progress} variant='determinate' value={value * 100 / total} color={secondary ? 'secondary' : 'primary'} />
       <Typography className={classes.metrics}>
         {value} of {total}
       </Typography>

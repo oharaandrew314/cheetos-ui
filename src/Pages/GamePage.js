@@ -1,12 +1,68 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
 
 import CheetosClient from '../api/cheetosClient'
 import AchievementList from '../Components/AchievementList'
-import GameCard from '../Components/GameCard'
+import PlatformIcon from '../Components/PlatformIcon'
+import Progress from '../Components/Progress'
 
-export default class Game extends Component {
+const styles = {
+  avatar: {
+    marginLeft: 10
+  },
+  title: {
+    flexGrow: 1
+  },
+  root: {
+    marginBottom: 20
+  },
+  toolbar: {
+    display: 'flex'
+  },
+  element: {
+    flexGrow: 1,
+    marginLeft: 10
+  }
+}
+
+function Header (props) {
+  const { classes, platform, game } = props
+
+  return (
+    <AppBar position='static' className={classes.root}>
+      <Toolbar className={classes.toolbar}>
+        <IconButton to='/' component={Link}>
+          <ArrowBackIcon />
+        </IconButton>
+        <PlatformIcon platform={platform} />
+        {
+          game
+            ? <Typography variant='h5'>{game.name}</Typography>
+            : <CircularProgress color='secondary' />
+        }
+        {
+          game
+            ? (
+              <div className={classes.element}>
+                <Progress value={game.achievementsCurrent} total={game.achievementsTotal} secondary />
+              </div>
+              )
+            : undefined
+        }
+      </Toolbar>
+    </AppBar>
+  )
+}
+
+class GamePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -29,18 +85,21 @@ export default class Game extends Component {
   }
 
   render () {
+    const { platform } = this.props.match.params
+    const { classes } = this.props
     const { game, achievements } = this.state
 
-    if (!game) {
-      return <CircularProgress size={200} />
-    }
+    const content = game
+      ? <AchievementList achievements={achievements} />
+      : <CircularProgress size={200} />
 
     return (
       <div>
-        <GameCard game={game} />
-
-        <AchievementList achievements={achievements} />
+        <Header classes={classes} platform={platform} game={game} />
+        {content}
       </div>
     )
   }
 }
+
+export default withStyles(styles)(GamePage)

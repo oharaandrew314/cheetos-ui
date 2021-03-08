@@ -42,6 +42,7 @@ const styles = {
 
 function GameCard (props) {
   const { game, classes } = props
+
   const handleClick = () => {
     window.location = `/games/${game.uid.platform}/${game.uid.id}`
   }

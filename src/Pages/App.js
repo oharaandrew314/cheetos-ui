@@ -5,7 +5,7 @@ import { ThemeProvider } from "@material-ui/styles"
 import { CssBaseline, AppBar, Typography, createMuiTheme } from "@material-ui/core"
 
 import Public from './Public'
-import Dashboard from './Dashboard'
+import GameListPage from './GameListPage'
 import Header from '../Components/Header'
 import Profile from './Profile'
 import SessionManager from '../auth/sessionManager'
@@ -39,7 +39,7 @@ export default function App () {
         </Route>
         <Route path='/games/:platform/:id' exact component={GamePage} />
         <Route path='/' exact>
-          <Dashboard />
+          <GameListPage />
         </Route>
       </Switch>
       )

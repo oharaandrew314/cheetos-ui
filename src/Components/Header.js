@@ -1,23 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-import { APP_NAME } from '../Constants'
+import { APP_NAME, APP_DESCRIPTION } from '../Constants'
 import Session from './UserAvatar'
 
 const styles = {
   avatar: {
     marginLeft: 10
   },
-  title: {
-    flexGrow: 1
-  },
-  toolbar: {
-    marginBottom: 20
+  description: {
+    flexGrow: 1,
+    marginLeft: 20
   }
 }
 
@@ -38,10 +35,13 @@ function Header (props) {
 
   return (
     <header>
-      <AppBar position='static' className={classes.toolbar}>
+      <AppBar position='static'>
         <Toolbar>
-          <Typography variant='h3' className={classes.title} color='inherit' to='/' component={Link}>
+          <Typography variant='h3' color='inherit'>
             {APP_NAME}
+          </Typography>
+          <Typography variant='h5' className={classes.description} color='inherit'>
+            {APP_DESCRIPTION}
           </Typography>
           {displayName}
           {userAvatar}
