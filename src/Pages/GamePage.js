@@ -30,6 +30,12 @@ const styles = {
   element: {
     flexGrow: 1,
     marginLeft: 10
+  },
+  media: {
+    margin: 5,
+    maxHeight: 200,
+    minWidth: 100,
+    maxWidth: 300
   }
 }
 
@@ -42,6 +48,11 @@ function Header (props) {
         <IconButton to='/' component={Link}>
           <ArrowBackIcon />
         </IconButton>
+        {
+          game
+            ? <img className={classes.media} src={game.displayImage} alt={game.name} />
+            : undefined
+        }
         <PlatformIcon platform={platform} />
         {
           game
