@@ -1,13 +1,12 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route, useLocation } from 'react-router-dom'
 
-import { ThemeProvider } from "@material-ui/styles"
-import { CssBaseline, AppBar, Typography, createMuiTheme } from "@material-ui/core"
+import { ThemeProvider } from '@material-ui/styles'
+import { CssBaseline, createMuiTheme } from '@material-ui/core'
 
 import Public from './Public'
 import GameListPage from './GameListPage'
 import Header from '../Components/Header'
-import Profile from './Profile'
 import SessionManager from '../auth/sessionManager'
 import GamePage from './GamePage'
 
@@ -34,9 +33,6 @@ export default function App () {
     ? (
       <Switch>
         <Route path='/auth/callback' exact component={Callback} />
-        <Route path='/profile' exact>
-          <Profile profile={session.getProfile()} />
-        </Route>
         <Route path='/games/:platform/:id' exact component={GamePage} />
         <Route path='/' exact>
           <GameListPage />

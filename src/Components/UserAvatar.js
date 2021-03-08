@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import Avatar from '@material-ui/core/Avatar'
 import Menu from '@material-ui/core/Menu'
@@ -55,12 +54,6 @@ function UserAvatar (props) {
         open={Boolean(anchorEl)}
         onClose={handleCloseSessionDropdown}
       >
-        <MenuItem
-          to='/profile' component={Link}
-          onClick={handleCloseSessionDropdown}
-        >
-          {profile.displayName}
-        </MenuItem>
         <MenuItem onClick={handleSync}>Sync</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
