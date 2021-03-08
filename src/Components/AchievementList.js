@@ -10,19 +10,27 @@ import AchievementCard from './AchievementCard'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = {
-  root: {
-    display: 'flex'
+  controls: {
+    marginBottom: 10
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'center'
   },
   show: {
     margin: 5,
     minWidth: 120,
     flexGrow: 1
   },
-  divider: {
+  spacing: {
     flexGrow: 1
   },
   order: {
     minWidth: 240
+  },
+  achievement: {
+    maxWidth: 1024,
+    flexGrow: 1
   }
 }
 
@@ -86,37 +94,46 @@ class AchievementList extends Component {
       .sort(compare)
       .map(achievement => {
         return (
-          <FadeIn key={achievement.id}>
-            <AchievementCard achievement={achievement} />
-          </FadeIn>
+          <div className={classes.container} key={achievement.id}>
+            <div />
+            <div className={classes.achievement}>
+              <FadeIn>
+                <AchievementCard achievement={achievement} />
+              </FadeIn>
+            </div>
+            <div />
+          </div>
         )
       })
 
     return (
       <div>
-        <div className={classes.root}>
-          <FormControl className={classes.show}>
-            <InputLabel id='show'>Show</InputLabel>
-            <Select labelid='show' value={show} onChange={this.handleChangeShow.bind(this)}>
-              <MenuItem value='all'>All</MenuItem>
-              <MenuItem value='unlocked'>Unlocked</MenuItem>
-              <MenuItem value='locked'>Locked</MenuItem>
-              <MenuItem value='hidden'>Hidden</MenuItem>
-            </Select>
-          </FormControl>
-          <div className={classes.divider} />
+        <div className={classes.controls}>
+          <div className={classes.container}>
+            <div className={classes.spacing} />
+            <FormControl className={classes.show}>
+              <InputLabel id='show'>Show</InputLabel>
+              <Select labelid='show' value={show} onChange={this.handleChangeShow.bind(this)}>
+                <MenuItem value='all'>All</MenuItem>
+                <MenuItem value='unlocked'>Unlocked</MenuItem>
+                <MenuItem value='locked'>Locked</MenuItem>
+                <MenuItem value='hidden'>Hidden</MenuItem>
+              </Select>
+            </FormControl>
 
-          <FormControl className={classes.order}>
-            <InputLabel id='sort-by'>Sort By</InputLabel>
-            <Select labelid='sort-by' onChange={this.handleChangeSort.bind(this)} value={sortBy}>
-              <MenuItem value='unlocked'>Unlocked</MenuItem>
-              <MenuItem value='name'>Name</MenuItem>
-            </Select>
-            <Select value={order} onChange={this.handleChangeOrder.bind(this)}>
-              <MenuItem value='asc'>Ascending</MenuItem>
-              <MenuItem value='desc'>Descending</MenuItem>
-            </Select>
-          </FormControl>
+            <FormControl className={classes.order}>
+              <InputLabel id='sort-by'>Sort By</InputLabel>
+              <Select labelid='sort-by' onChange={this.handleChangeSort.bind(this)} value={sortBy}>
+                <MenuItem value='unlocked'>Unlocked</MenuItem>
+                <MenuItem value='name'>Name</MenuItem>
+              </Select>
+              <Select value={order} onChange={this.handleChangeOrder.bind(this)}>
+                <MenuItem value='asc'>Ascending</MenuItem>
+                <MenuItem value='desc'>Descending</MenuItem>
+              </Select>
+            </FormControl>
+            <div className={classes.spacing} />
+          </div>
         </div>
 
         {elements}

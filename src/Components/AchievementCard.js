@@ -15,13 +15,11 @@ import AchievementIcon from './AchievementIcon'
 const styles = {
   root: {
     margin: 5,
-    padding: 5,
-    maxWidth: 1024
+    padding: 5
   },
   completed: {
     color: green[500],
-    fontSize: 40,
-    flexGrow: 6
+    fontSize: 40
   },
   notCompleted: {
     color: grey[500],
@@ -34,7 +32,7 @@ const styles = {
   topRow: {
     display: 'flex'
   },
-  left: {
+  name: {
     flexGrow: 1
   }
 }
@@ -66,8 +64,8 @@ function AchievementCard (props) {
   return (
     <Paper className={classes.root}>
       <div className={classes.topRow}>
-        <AchievementIcon className={classes.left} achievement={achievement} />
-        <Typography className={classes.left} gutterBottom variant='h5' component='h2'>
+        <AchievementIcon achievement={achievement} />
+        <Typography className={classes.name} gutterBottom variant='h5' component='h2'>
           {achievement.name}
         </Typography>
         <Status achievement={achievement} classes={classes} />
