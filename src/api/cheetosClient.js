@@ -36,4 +36,9 @@ export default class CheetosClient {
     const resp = await this.client.get(`/v1/games/${platform}/${gameId}/achievements`)
     return resp.data.map(a => new Achievement(a.id, a.name, a.description, a.hidden, a.icons, a.score, a.unlockedOn, a.unlocked))
   }
+
+  async getJobCount () {
+    const resp = await this.client.get('/v1/sync')
+    return resp.data.count
+  }
 }

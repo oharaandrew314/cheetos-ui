@@ -6,8 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 
-import CheetosClient from '../api/cheetosClient'
-
 const styles = {
   avatar: {
     marginLeft: 10
@@ -32,11 +30,6 @@ function UserAvatar (props) {
     setAnchorEl(null)
   }
 
-  const handleSync = async () => {
-    await new CheetosClient().sync()
-    handleCloseSessionDropdown()
-  }
-
   return (
     <span>
       <Button>
@@ -54,7 +47,6 @@ function UserAvatar (props) {
         open={Boolean(anchorEl)}
         onClose={handleCloseSessionDropdown}
       >
-        <MenuItem onClick={handleSync}>Sync</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </span>
